@@ -6,10 +6,14 @@ class Resident(models.Model):
     flat_no = models.CharField(max_length=20)
     contact_no = models.CharField(max_length=20)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    def __str__(self):
+        return f"{self.flat_no} - {self.client.name}"
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
     client = models.ForeignKey(Client,on_delete=models.CASCADE)
+    def __str__(self):
+        return f"{self.name}({self.client.name})"
 
 class Job(models.Model):
     STATUS_CHOICES = [
@@ -24,3 +28,5 @@ class Job(models.Model):
     photo = models.ImageField(upload_to="complaintphotos/")
     status = models.CharField(max_length=100,choices=STATUS_CHOICES, default="open")
     created_at = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return f"{self.client.name} - {self.resident.flat_no} - {self.status}"

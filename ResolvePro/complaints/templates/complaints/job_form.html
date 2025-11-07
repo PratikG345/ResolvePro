@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Job form - {{ client.name }}</title>
+    </head>
+    <body>
+        Job form - {{ client.name }}
+        <p>this is job form</p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label>Flat no: </label>
+            <input type="text" name =flat_no >
+
+            <label>contact number: </label>
+            <input type="text" name =contact_no >
+
+            <label>Issue Type: </label>
+            <select name="category">
+                {% for i in categories %}
+                <option value="{{ i.id }}">{{ i.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Description: </label>
+            <input type="text" name="description">
+
+            <label>Add Photo: </label>
+            <input type="file" name="photo" id="photo">
+
+            <button type="submit">Submit form</button>
+        </form>
+    </body>
+</html>
