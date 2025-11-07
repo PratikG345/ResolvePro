@@ -46,4 +46,5 @@ venv/
 env/
 ENV/
 
+# uploaded images of residents in job form
 complaintphotos/
