@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'ResolvePro.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Resolve',
+        'USER': 'postgres',
+        'PASSWORD': 'pratik1642',
+        'HOST': 'localhost',  # or cloud host
+        'PORT': '5432',
     }
 }
 
