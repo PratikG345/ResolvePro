@@ -1,33 +1,167 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Job form - {{ client.name }}</title>
-    </head>
-    <body>
-        Job form - {{ client.name }}
-        <p>this is job form</p>
+<head>
+    <title>Submit Complaint - {{ client.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        input[type="text"], 
+        select, 
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        .required::after {
+            content: " *";
+            color: red;
+        }
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(40, 167, 69, 0.9); /* Green with transparency */
+            color: white;
+            padding: 15px 25px;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast.fade-out {
+            animation: slideOut 0.5s ease-in forwards;
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Submit Maintenance Request</h1>
+        <h2 style="text-align: center; color: #666;">{{ client.name }}</h2>
+        
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <label>Flat no: </label>
-            <input type="text" name =flat_no >
+            
+            <div class="form-group">
+                <label class="required">Flat Number</label>
+                <input type="text" name="flat_no" required>
+            </div>
 
-            <label>contact number: </label>
-            <input type="text" name =contact_no >
+            <div class="form-group">
+                <label>Contact Number</label>
+                <input type="text" name="contact_no">
+            </div>
 
-            <label>Issue Type: </label>
-            <select name="category">
-                {% for i in categories %}
-                <option value="{{ i.id }}">{{ i.name }}</option>
-                {% endfor %}
-            </select>
+            <div class="form-group">
+                <label class="required">Issue Type</label>
+                <select name="category" required>
+                    <option value="">Select Issue Type</option>
+                    {% for i in categories %}
+                    <option value="{{ i.id }}">{{ i.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-            <label>Description: </label>
-            <input type="text" name="description">
+            <div class="form-group">
+                <label class="required">Description</label>
+                <textarea name="description" placeholder="Please describe the issue in detail..." required></textarea>
+            </div>
 
-            <label>Add Photo: </label>
-            <input type="file" name="photo" id="photo">
+            <div class="form-group">
+                <label>Add Photo</label>
+                <input type="file" name="photo" id="photo">
+            </div>
 
-            <button type="submit">Submit form</button>
+            <button type="submit">Submit Request</button>
         </form>
-    </body>
+    </div>
+    {% if show_success %}
+<div class="toast" id="successToast">
+    ✅ Complaint submitted successfully!
+</div>
+
+<script>
+    // Auto-hide toast after 5 seconds
+    setTimeout(function() {
+        var toast = document.getElementById('successToast');
+        toast.classList.add('fade-out');
+        setTimeout(function() {
+            toast.remove();
+        }, 500);
+    }, 5000);
+    
+    // Also allow clicking to dismiss
+    document.getElementById('successToast').addEventListener('click', function() {
+        this.classList.add('fade-out');
+        setTimeout(function() {
+            this.remove();
+        }.bind(this), 500);
+    });
+</script>
+{% endif %}
+</body>
 </html>
