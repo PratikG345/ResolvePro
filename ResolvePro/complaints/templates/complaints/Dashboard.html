@@ -192,7 +192,7 @@
                             {% csrf_token %}
                             <select name="vendor_id">
                                 {% for vendor in vendors %}
-                                    {% if vendor.category == job.category %}
+                                    {% if vendor.category.id == job.category.id %}
                                     <option value="{{ vendor.id }}">{{ vendor.name }}</option>
                                     {% endif %}
                                 {% endfor %}
