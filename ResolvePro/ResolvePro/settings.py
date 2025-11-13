@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -76,14 +77,10 @@ WSGI_APPLICATION = 'ResolvePro.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Resolve',
-        'USER': 'postgres',
-        'PASSWORD': 'pratik1642',
-        'HOST': 'localhost',  # or cloud host
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('postgresql://resolve_cpw7_user:dCyKI223h4v2bpyK6s7j1kGojXbQFp9B@dpg-d4aqcjhe2q1c73b6bnbg-a/resolve_cpw7'),
+        conn_max_age=600
+    )
 }
 
 
